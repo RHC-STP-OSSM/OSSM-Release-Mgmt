@@ -49,8 +49,8 @@ This table shows snippet of v1 and v2 of the "reviews" Deployment of the bookinf
 
 <p>If you have properly setup OSSM Control Plane, Member Roll, and bookinfo, you should see the following bookinfo pods up and running.<br>
 NOTE: each pod have 2 containers per pod, means that sidecar proxy has been injected properly
-![](bookinfo-pods.png)
 </p>
+![](bookinfo-pods.png)
 
 - Destination Rule
 
