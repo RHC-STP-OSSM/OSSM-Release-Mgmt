@@ -2,6 +2,14 @@ Objectives
 
 This lab demonstrates release OSSM applications with a safe canary rollout.
 
+Prerequisites
+
+- OCP 4.7+ (tenant admin access)
+- OSSM 2.1
+-   Control Plane created and started
+-   Service Mesh Member Roll (bookinfo enrolled)
+-   Routes are up and running (istio-ingressgateway, Kiali)
+
 Background
 
 Traditional release model requires version rollback when defects are found.  
@@ -37,6 +45,7 @@ This table shows snippet of v1 and v2 of the "reviews" Deployment of the bookinf
 - Application label should match the old deployment, so that the service is aware that the new version belongs to the same application as the old version.
 - Change the value of the version label so that OSSM can distinguish between versions when routing traffic.
 
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f bookinfo.yaml -n bookinfo"><pre class="notranslate"><code>oc apply -f bookinfo.yaml -n bookinfo</code></pre></div>
 
 - Destination Rule
 
