@@ -76,3 +76,18 @@ Each destination must contain the following information:
 - The percentage of traffic routed to the version
 
 <div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f bookinfo-gateway-canary.yaml -n bookinfo"><pre class="notranslate"><code>oc apply -f bookinfo-gateway-canary.yaml -n bookinfo</code></pre></div>
+
+## Inspecting Canary Traffic with Kiali
+
+You can inspect the traffic flow in the Kiali Graph section and visualize how traffic is distributed to each version. Click Graph in the navigation pane to visualize the graph. 
+Click Display → Requests Percentage to include percentage of requests that Envoy proxy routed to each graph edge.
+
+![](kiali-graph.png)
+
+Note: how Kiali identifies that the two versions belong to the same application. You can also see the amount of traffic that each version receives. This allows you to verify that your traffic splitting configuration works as expected.
+
+## Learning Summary
+- Update Deployment yaml to include versioning subsets for app
+- Created VirtualService and DestinationRule CRD's for canary release model
+- Visualize traffic split routing using Kiali
+
