@@ -27,7 +27,7 @@ Non-Chrome browser users will see "Hello World!" version of the application.
 <UL>
 <LI>Gateway: Uses istio-ingressgateway
 <LI>VirtualService: Will be amended in later steps
-<LI>Deployment:
+<LI>Deployment:<br>
   - Sidecar injection is enabled<br>
   - v1 image: quay.io/redhattraining/ossm-maven-simplest:1.0<br>
   - v2 image: quay.io/redhattraining/ossm-maven-simplest:2.0<br>
@@ -53,6 +53,7 @@ Non-Chrome browser users will see "Hello World!" version of the application.
 <LI>v1 routing logic:<br>
   - Default route if match not found
 </UL>
+
 ![](http-match.png)
 
 <p dir="auto">Note: the match rule is interpreted and executed in sequential order as defined in the yaml</p>
