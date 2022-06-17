@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: headers-v1
+  labels:
+    app: headers
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: headers
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: headers
+        version: v1
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - name: headers
+          image: quay.io/redhattraining/ossm-maven-simplest:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: headers-v2
+  labels:
+    app: headers
+    version: v2
+spec:
+  selector:
+    matchLabels:
+      app: headers
+      version: v2
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: headers
+        version: v2
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - name: headers
+          image: quay.io/redhattraining/ossm-maven-simplest:2.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: headers
+  name: headers
+spec:
+  ports:
+    - name: http
+      port: 8080
+  selector:
+    app: headers
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: headers-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: headers-vs
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - headers-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /headers
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: headers
+            port:
+              number: 8080
