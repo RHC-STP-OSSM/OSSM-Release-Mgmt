@@ -24,14 +24,14 @@ Non-Chrome browser users will see "Hello World!" version of the application.
 </code></pre></div>
 
 <p dir="auto">Setup the application CRD's:</p>
-- Gateway
-  - Uses istio-ingressgateway
-- VirtualService
-  - Will be amended in later steps
-- Deployment
-  - Sidecar injection is enabled
-  - v1 image: quay.io/redhattraining/ossm-maven-simplest:1.0
-  - v2 image: quay.io/redhattraining/ossm-maven-simplest:2.0
+<UL>
+<LI>Gateway: Uses istio-ingressgateway
+<LI>VirtualService: Will be amended in later steps
+<LI>Deployment:
+  - Sidecar injection is enabled<br>
+  - v1 image: quay.io/redhattraining/ossm-maven-simplest:1.0<br>
+  - v2 image: quay.io/redhattraining/ossm-maven-simplest:2.0<br>
+</UL>
 <div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f application.yaml -n headers"><pre class="notranslate"><code>oc apply -f application.yaml -n headers
 </code></pre></div>
 
@@ -46,12 +46,13 @@ Non-Chrome browser users will see "Hello World!" version of the application.
 </code></pre></div>
 
 <p dir="auto">Create Virtual Service.</p>
-- v2 routing logic:
-  - We are looking for HTTP Header called "User-Agent" which contains "Chrome" using regex
+<UL>
+<LI>v2 routing logic:<br>
+  - We are looking for HTTP Header called "User-Agent" which contains "Chrome" using regex<br>
   - If match, route to v2 subset which we defined earlier in Destination Rule
-- v1 routing logic:
+<LI>v1 routing logic:<br>
   - Default route if match not found
-
+</UL>
 ![](http-match.png)
 
 <p dir="auto">Note: the match rule is interpreted and executed in sequential order as defined in the yaml</p>
@@ -64,7 +65,7 @@ Non-Chrome browser users will see "Hello World!" version of the application.
   - Chrome browser sends User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36
   - Firefox sends User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0
   
-- Enter your {istio-ingressgateway.<your cluster domain>}/headers into your browser:
+- Enter your {istio-ingressgateway.(your cluster domain)}/headers into your browser:
   - Using Chrome: you will see "Hello Red Hat!"
   - Using non-Chrome: you will see "Hello World!"
   
