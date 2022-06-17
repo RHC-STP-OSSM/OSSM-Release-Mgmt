@@ -25,13 +25,13 @@ Non-Chrome browser users will see "Hello World!" version of the application.
 
 <p dir="auto">Setup the application CRD's:</p>
 - Gateway
-  Uses istio-ingressgateway
+  - Uses istio-ingressgateway
 - VirtualService
-  Will be amended in later steps
+  - Will be amended in later steps
 - Deployment
-  Sidecar injection is enabled
-  v1 image: quay.io/redhattraining/ossm-maven-simplest:1.0
-  v2 image: quay.io/redhattraining/ossm-maven-simplest:2.0
+  - Sidecar injection is enabled
+  - v1 image: quay.io/redhattraining/ossm-maven-simplest:1.0
+  - v2 image: quay.io/redhattraining/ossm-maven-simplest:2.0
 <div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f application.yaml -n headers"><pre class="notranslate"><code>oc apply -f application.yaml -n headers
 </code></pre></div>
 
@@ -47,27 +47,30 @@ Non-Chrome browser users will see "Hello World!" version of the application.
 
 <p dir="auto">Create Virtual Service.</p>
 - v2 routing logic:
-  We are looking for HTTP Header called "User-Agent" which contains "Chrome" using regex
-  If match, route to v2 subset which we defined earlier in Destination Rule
+  - We are looking for HTTP Header called "User-Agent" which contains "Chrome" using regex
+  - If match, route to v2 subset which we defined earlier in Destination Rule
 - v1 routing logic:
-  Default route if match not found
-Note: the match rule is interpreted and executed in sequential order as defined in the yaml
+  - Default route if match not found
+
+![](http-match.png)
+
+<p dir="auto">Note: the match rule is interpreted and executed in sequential order as defined in the yaml</p>
 <div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="oc apply -f virtual-service-with-header-subsets.yaml -n headers"><pre class="notranslate"><code>oc get apply -f virtual-service-with-header-subsets.yaml -n headers
 </code></pre></div>
 
 ## Test Execution
 
 - Different browsers send own User-Agent value, for example: 
-  Chrome browser sends User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36
-  Firefox sends User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0
+  - Chrome browser sends User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36
+  - Firefox sends User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0
   
 - Enter your {istio-ingressgateway.<your cluster domain>}/headers into your browser:
-  Using Chrome: you will see "Hello Red Hat!"
-  Using non-Chrome: you will see "Hello World!"
+  - Using Chrome: you will see "Hello Red Hat!"
+  - Using non-Chrome: you will see "Hello World!"
   
 - You can experiment with more elaborate match/route logic by updating the VirtualService CRD
-  For example, you can look for custom HTTP headers with specific values, and route to versioned subsets depending on business needs
-  You can even combine traffic routing weights (as seen in our Canary Deployment lab) with header match logic
+  - For example, you can look for custom HTTP headers with specific values, and route to versioned subsets depending on business needs
+  - You can even combine traffic routing weights (as seen in our Canary Deployment lab) with header match logic
   
 ## Learning Summary
 
